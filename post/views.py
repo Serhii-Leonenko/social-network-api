@@ -36,7 +36,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
         return self.serializer_class
 
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["post"], url_path="like-unlike")
     def like_unlike(self, request, pk=None):
         post = self.get_object()
         user = request.user

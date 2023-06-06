@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,7 +25,8 @@ class RegisterView(generics.GenericAPIView):
                     user, context=self.get_serializer_context()
                 ).data,
                 "message": "User Created Successfully.  Now perform Login to get your token",
-            }
+            },
+            status=status.HTTP_201_CREATED,
         )
 
 

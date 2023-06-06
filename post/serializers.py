@@ -10,7 +10,15 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ("id", "user", "title", "content", "created_at", "updated_at", "likes_count")
+        fields = (
+            "id",
+            "user",
+            "title",
+            "content",
+            "created_at",
+            "updated_at",
+            "likes_count",
+        )
         read_only_fields = ("user", "created_at", "updated_at")
 
     @staticmethod
@@ -21,7 +29,7 @@ class PostSerializer(serializers.ModelSerializer):
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
-        fields = ("id", "user", "post", "created_at")
+        fields = ("id", "user", "created_at")
 
 
 class PostDetailSerializer(PostSerializer):
