@@ -1,5 +1,7 @@
 from django.db.models import Count
 from django.utils.dateparse import parse_date
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -52,8 +54,36 @@ class PostViewSet(viewsets.ModelViewSet):
 
         return Response({"message": message, "post": serializer.data})
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "user",
+                type=OpenApiTypes.INT,
+                description="User id",
+            ),
+        ],
+        responses={200: OpenApiResponse(description="List of posts")},
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 class AnalyticsViewSet(viewsets.ViewSet):
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "date_from",
+                type=OpenApiTypes.DATE,
+                description="Date from (ex. 2021-01-01)",
+            ),
+            OpenApiParameter(
+                "date_to",
+                type=OpenApiTypes.DATE,
+                description="Date to (ex. 2021-01-01)",
+            ),
+        ],
+        responses={200: OpenApiResponse(description="Analytics data")},
+    )
     def list(self, request):
         date_from = request.query_params.get("date_from")
         date_to = request.query_params.get("date_to")
