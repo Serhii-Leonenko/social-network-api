@@ -12,7 +12,7 @@ from post.serializers import PostSerializer, PostDetailSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.select_related("user").prefetch_related("likes")
     serializer_class = PostSerializer
 
     def get_permissions(self):

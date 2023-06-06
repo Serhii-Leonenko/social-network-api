@@ -35,4 +35,5 @@ urlpatterns = [
     path(
         "api/doc/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"
     ),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
