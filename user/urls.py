@@ -10,7 +10,7 @@ from user.views import RegisterView, UserActivityView
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="create"),
     path("login/", TokenObtainPairView.as_view(), name="token-obtain-pair"),
-    path("ligin/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
+    path("login/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("login/verify/", TokenVerifyView.as_view(), name="token-verify"),
     path("activity/", UserActivityView.as_view(), name="user-activity"),
 ]
