@@ -5,7 +5,6 @@ from user.serializers import UserSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
-    user = UserSerializer(many=False, read_only=True)
     likes_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -19,7 +18,7 @@ class PostSerializer(serializers.ModelSerializer):
             "updated_at",
             "likes_count",
         )
-        read_only_fields = ("user", "created_at", "updated_at")
+        read_only_fields = ("id", "user", "created_at", "updated_at")
 
     @staticmethod
     def get_likes_count(obj):
@@ -34,8 +33,14 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class PostDetailSerializer(PostSerializer):
     likes = LikeSerializer(many=True, read_only=True)
+    user = UserSerializer(many=False, read_only=True)
 
     class Meta:
         model = Post
         fields = ("id", "user", "content", "created_at", "updated_at", "likes")
-        read_only_fields = ("user", "created_at", "updated_at")
+
+
+class PostLikeSerializer(PostDetailSerializer):
+    class Meta:
+        model = Post
+        fields = ("id", "user", "created_at", "updated_at", "likes")

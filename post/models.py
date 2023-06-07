@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.db.models import UniqueConstraint
+from rest_framework.exceptions import ValidationError
 
 
 class Post(models.Model):
@@ -12,7 +12,13 @@ class Post(models.Model):
 
     class Meta:
         ordering = ("-created_at",)
-        UniqueConstraint(fields=["title", "user"], name="unique_post")
+
+    def save(self, *args, **kwargs):
+        if Post.objects.filter(title=self.title, user=self.user).exists():
+            error_message = "A post with the same title already exists for this user."
+            raise ValidationError(error_message)
+
+        super().save(*args, **kwargs)
 
 
 class Like(models.Model):

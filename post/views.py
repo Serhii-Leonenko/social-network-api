@@ -8,11 +8,11 @@ from rest_framework.response import Response
 
 from post.models import Post, Like
 from post.permissions import IsAuthor
-from post.serializers import PostSerializer, PostDetailSerializer
+from post.serializers import PostSerializer, PostDetailSerializer, PostLikeSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.select_related("user").prefetch_related("likes")
+    queryset = Post.objects.prefetch_related("likes")
     serializer_class = PostSerializer
 
     def get_permissions(self):
@@ -25,16 +25,20 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
+        queryset = super().get_queryset()
         user = self.request.query_params.get("user")
 
         if user:
-            self.queryset = self.queryset.filter(user=user)
+            queryset = queryset.filter(user=user)
 
-        return self.queryset
+        return queryset
 
     def get_serializer_class(self):
-        if self.action in ["like_unlike", "retrieve"]:
+        if self.action in ["retrieve"]:
             return PostDetailSerializer
+
+        if self.action in ["like_unlike"]:
+            return PostLikeSerializer
 
         return self.serializer_class
 
