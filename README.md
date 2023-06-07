@@ -13,8 +13,8 @@ API on Django REST Framework for posting and liking
 ## Project setup
 
 ```shell
-git clone https://github.com/Serhii-Leonenko/test-social-network
-cd test-social-network
+git clone https://github.com/Serhii-Leonenko/social-network-api
+cd social-network-api
 ```
 
 ❗**RENAME .env.sample to .env and fill it with your data**❗
@@ -52,4 +52,3 @@ python3 bot.py *while the server is running*
 
 ## Swagger looks like this:
 ![Web Interface](demo/demo.png)
-
